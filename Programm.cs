@@ -1,58 +1,49 @@
-public class MainTree
-{ 
-    public int valueTree { get; set; }
-
-    public void printTree()
-    {
-        Console.WriteLine($"Значение главного дерева: {valueTree}");
-        Tree tree = new Tree(); 
-        tree.printTree(); 
-    } 
-} 
-
-public class Tree: MainTree
+public class Tree
 {
     public int valueTree { get; set; } 
-    public void printTree()
-    {
-        Console.WriteLine($"Значение дерева: {valueTree}");
-        TreePast tree = new TreePast();
-        tree.printTree();
-    }
-}
 
-public class TreePast : Tree
-{
-    public void printTree()
-    {
-        Console.WriteLine($"Значение дерева в прошлом: {valueTree}");
-        TreeFuture tree = new TreeFuture();
-        tree.printTree();
-    }
-}
+    public List<Tree> children { get; set; } 
 
-public class TreeFuture : TreePast
-{
-    public void printTree()
+    public Tree(int value)
     {
-        Console.WriteLine($"Значение дерева в будущем: {valueTree}");
+        valueTree = value;
+        children = new List<Tree>(); 
     }
-}
 
-public class TreeSecondVersion : MainTree
-{
-    public int valueTree { get; set; }
-    public void printTree()
+    public void render()
     {
-        Console.WriteLine($"Значение дерева (вторая версия): {valueTree}");
-    }
+        Console.WriteLine($"Vlalue Tree: {valueTree} \n");  
+
+        foreach (var child in children)
+        {
+            child.render();  
+        }
+    } 
 } 
 
 class Application
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
-        MainTree mainTree = new MainTree { valueTree = 10 };
-        mainTree.printTree(); 
+        Tree tree = new Tree(1);
+
+        Tree firstPar = new Tree(2);
+        Tree secondPar = new Tree(3);
+
+        Tree firstChild = new Tree(100);
+        Tree secondChild = new Tree(200);
+        Tree thirdChild = new Tree(300);
+
+        tree.children.Add(firstPar);
+        tree.children.Add(secondPar);
+
+        firstPar.children.Add(firstChild);
+        firstPar.children.Add(secondChild);
+
+        secondPar.children.Add(thirdChild);
+
+        Console.WriteLine("Tree Structure: \n");
+        tree.render(); 
+
     }
 }
